@@ -57,6 +57,7 @@ class ChordRing:
         df = pd.read_excel(FILE_PATH, SHEET_NAME)
         np = df.to_numpy()
         key_list = []
+
         for line in np:
             # Hash the key.
             key = str(line[0]).encode('utf-8')
@@ -66,12 +67,10 @@ class ChordRing:
             print(hex(key))
             successor = node.find_successor(key)
             successor.data[key] = line[0]
-        key_set = set(key_list)
 
         # Check for duplicates
-        print(len(df))
-        print(len(key_list))
-        print(len(key_set))
+        key_set = set(key_list)
+        print('\nHas Duplicates:', len(key_list) != len(key_set))
 
     def print_nodes(self):
         i = 0
@@ -90,4 +89,4 @@ class ChordRing:
 
 chord_ring = ChordRing()
 chord_ring.load_data()
-chord_ring.print_nodes()
+# chord_ring.print_nodes()
