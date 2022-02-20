@@ -3,7 +3,7 @@ import hashlib
 from dht_node import Node
 import pandas as pd
 
-FILE_PATH = '../files/global_terrorism_data.xlsx'
+FILE_PATH = '../files/test_data.xlsx'
 SHEET_NAME = 'Data'
 
 KEY_BITS = 32  # The number of bits in a key.
@@ -64,13 +64,14 @@ class ChordRing:
             key = int(key, 16) % 2 ** KEY_BITS
             key_list.append(key)
             print(hex(key))
+            successor = node.find_successor(key)
+            successor.data[key] = line[0]
         key_set = set(key_list)
 
         # Check for duplicates
         print(len(df))
         print(len(key_list))
         print(len(key_set))
-
 
     def print_nodes(self):
         i = 0
@@ -81,6 +82,7 @@ class ChordRing:
             print('Next Node Key:      ' + str(node.successor.key))
             print('Finger Node Keys:   ', end='')
             print(*node.fingers, sep=', ')
+            print(node.data)
             print()
             i += 1
         print('Total Nodes: ' + str(self.total_nodes))
@@ -88,5 +90,4 @@ class ChordRing:
 
 chord_ring = ChordRing()
 chord_ring.load_data()
-
-
+chord_ring.print_nodes()
